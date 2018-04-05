@@ -1,5 +1,7 @@
 import sys, random, pygame, time
 
+#Ahoj PŘEMYSLE :D
+
 
 FPS = 10
 WINDOWWIDTH = 640
