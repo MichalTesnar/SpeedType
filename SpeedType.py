@@ -8,7 +8,7 @@ WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
 WORDS = []
 DIFFICULTY = 3
-DELAY = FPS * DIFFICULTY * 10000
+DELAY = FPS * DIFFICULTY
 putin = ""
 
 def main():
@@ -28,13 +28,12 @@ def main():
 
     while True:
         wait_time += 1
-        check_for_quit()
         check_for_input()
         if wait_time == DELAY:
             get_rand_word()
             wait_time = 0
             print(WORDS)
-        FPSCLOCK.tick()
+        FPSCLOCK.tick(FPS)
 
 
 
@@ -42,16 +41,13 @@ def terminate():
     pygame.quit()
     sys.exit()
 
-def check_for_quit():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            terminate()
-
 def check_for_input():
     global putin
     for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            terminate()
         if event.type == pygame.KEYDOWN:
-            if event.key != pygame.K_KP_ENTER:
+            if event.key != pygame.K_RETURN:
                 print(putin)
                 putin+=event.unicode
             else:
