@@ -1,7 +1,7 @@
 import sys, random, pygame, time
 
 #Ahoj PŘEMYSLE :D
-
+#yoyo
 
 FPS = 10
 WINDOWWIDTH = 640
@@ -16,7 +16,7 @@ def main():
 
     wait_time = 0
     global BASICFONT, DISPLAYSURF, FPSCLOCK, slovo
-    
+
     FPSCLOCK = pygame.time.Clock()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
     BASICFONT = pygame.font.Font('freesansbold.ttf', 20)
@@ -25,7 +25,7 @@ def main():
         slovo=file.readlines()
 
     get_rand_word()
-    
+
     while True:
         wait_time += 1
         check_for_quit()
@@ -35,9 +35,9 @@ def main():
             wait_time = 0
             print(WORDS)
         FPSCLOCK.tick()
-        
-        
-    
+
+
+
 def terminate():
     pygame.quit()
     sys.exit()
@@ -65,7 +65,7 @@ def get_rand_word():
         word =  word.rstrip("\n")
         WORDS.append(word)
         print(WORDS)
-    
-                
+
+
 if __name__ == '__main__':
     main()
