@@ -36,8 +36,6 @@ def main():
             print(WORDS)
         FPSCLOCK.tick(FPS)
 
-
-
 def terminate():
     pygame.quit()
     sys.exit()
@@ -48,20 +46,20 @@ def check_for_input():
         if event.type == pygame.QUIT:
             terminate()
         if event.type == pygame.KEYDOWN:
-            if event.key != pygame.K_RETURN:
-                if event.unicode.isalpha() or event.unicode.isdigit():
-                    putin+=event.unicode
-                    return(event.unicode)
-            elif putin in WORDS:
+            if (event.key != pygame.K_RETURN) and (event.key != pygame.K_BACKSPACE):
+                putin+=event.unicode
+            elif event.key == pygame.K_RETURN and (putin in WORDS):
                 WORDS.remove(putin)
                 SCORE+=1
                 putin=""
                 return("enter")
+            elif event.key == pygame.K_BACKSPACE:
+                putin = putin[0:len(putin) - 1]
+                return("backspace")
             else:
                 putin=""
                 return("enter")
                 pass
-            print(putin)
     return None
 
 def get_rand_word():
@@ -72,13 +70,15 @@ def get_rand_word():
 
 def show_text(char):
     global putin
-    if char != "enter":
-        text_surf=BASICFONT.render(char,True,WHITE)
-        text_rect=text_surf.get_rect()
-        text_rect.center = (WINDOWWIDTH/25 + (len(putin) - 1) * 11,WINDOWHEIGHT/10 * 9.5)
-        DISPLAYSURF.blit(text_surf,text_rect)
+    if char == "backspace":
+        DISPLAYSURF.fill(BGCOLOR)
+        #zmenit potom aby to zacernilo jenom ten text
+    text_surf=BASICFONT.render(putin,True,WHITE)
+    text_rect=text_surf.get_rect()
+    text_rect.bottomleft = (WINDOWWIDTH / 50,WINDOWHEIGHT / 10 * 9.8)
+    DISPLAYSURF.blit(text_surf,text_rect)
 
-    elif char == "enter":
+    if char == "enter":
         DISPLAYSURF.fill(BGCOLOR)
         #zmenit potom aby to zacernilo jenom ten text
     pygame.display.update()
