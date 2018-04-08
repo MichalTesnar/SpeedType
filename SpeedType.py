@@ -1,6 +1,6 @@
 import sys, random, pygame, time
 
-FPS = 10
+FPS = 60
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
 WORDS = []
@@ -9,7 +9,7 @@ DELAY = FPS * DIFFICULTY
 putin = ""
 SCORE = 0
 BGCOLOR = (0, 0, 0)
-WHITE = (0, 0, 0)
+WHITE = (255, 255, 255)
 
 def main():
     pygame.init()
@@ -25,10 +25,11 @@ def main():
         slovo=file.readlines()
 
     get_rand_word()
-    show_text()
+
     while True:
         wait_time += 1
-        check_for_input()
+        char = check_for_input()
+        show_text(char)
         if wait_time == DELAY:
             get_rand_word()
             wait_time = 0
@@ -48,16 +49,20 @@ def check_for_input():
             terminate()
         if event.type == pygame.KEYDOWN:
             if event.key != pygame.K_RETURN:
-                putin+=event.unicode
+                if event.unicode.isalpha() or event.unicode.isdigit():
+                    putin+=event.unicode
+                    return(event.unicode)
             elif putin in WORDS:
                 WORDS.remove(putin)
                 SCORE+=1
                 putin=""
+                return("enter")
             else:
                 putin=""
+                return("enter")
                 pass
-            show_text()
             print(putin)
+    return None
 
 def get_rand_word():
     with open("words.txt") as file:
@@ -65,12 +70,17 @@ def get_rand_word():
         word =  word.rstrip("\n")
         WORDS.append(word)
 
-def show_text():
+def show_text(char):
     global putin
-    text_surf=BASICFONT.render(putin,True,WHITE)
-    text_rect=text_surf.get_rect()
-    text_rect.center = (WINDOWWIDTH/2,WINDOWHEIGHT/2)
-    DISPLAYSURF.blit(text_surf,text_rect)
+    if char != "enter":
+        text_surf=BASICFONT.render(char,True,WHITE)
+        text_rect=text_surf.get_rect()
+        text_rect.center = (WINDOWWIDTH/25 + (len(putin) - 1) * 11,WINDOWHEIGHT/10 * 9.5)
+        DISPLAYSURF.blit(text_surf,text_rect)
+
+    elif char == "enter":
+        DISPLAYSURF.fill(BGCOLOR)
+        #zmenit potom aby to zacernilo jenom ten text
     pygame.display.update()
 
 if __name__ == '__main__':
