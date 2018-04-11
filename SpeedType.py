@@ -33,11 +33,11 @@ def main():
 
     get_rand_word()
     draw_start_screen("Start")
-    
+
     while True:
         if check_for_input() == "enter":
             break
-        
+
     DISPLAYSURF.fill(BGCOLOR)
     draw_ui()
 
@@ -138,14 +138,14 @@ def refresh_score():
 def check_for_life():
     global LIFECOUNT
     position = [round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6)]
-    pygame.draw.rect(DISPLAYSURF, BGCOLOR, (round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6),WINDOWWIDTH,WINDOWHEIGHT),10)
+    pygame.draw.rect(DISPLAYSURF, BGCOLOR, (round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6),WINDOWWIDTH,WINDOWHEIGHT),11)
     for i in range (LIFECOUNT):
         pygame.draw.circle(DISPLAYSURF,RED, position, 5)
         position[0] += 15
-        
+
 
 def game_over():
-    global WORDS, WORDS_ON_SCREEN
+    global WORDS, WORDS_ON_SCREEN, LIFECOUNT
     DISPLAYSURF.fill(BGCOLOR)
     draw_start_screen("Game Over")
     pygame.display.update()
@@ -153,6 +153,7 @@ def game_over():
     WORDS_ON_SCREEN = []
     while True:
         if check_for_input() == "enter":
+            LIFECOUNT = 3
             main()
 
 def draw_start_screen(text):
@@ -161,7 +162,7 @@ def draw_start_screen(text):
     text_rect = text_surf.get_rect()
     text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
     DISPLAYSURF.blit(text_surf,text_rect)
-    
+
     if text == "Start":
         text_surf = BASICFONT.render("To procceed, press enter!",True,GREEN)
         text_rect = text_surf.get_rect()
@@ -190,7 +191,7 @@ class word_on_screen:
         global name, position
         self.name = word
         self.position = [0,random.randint(20,WINDOWHEIGHT/10*9)]
-        
+
 
     def word_move(self):
         self.position[0] += WINDOWWIDTH / 64
@@ -213,7 +214,7 @@ class word_on_screen:
             text_surf = BASICFONT.render(self.name,True,color[2])
         DISPLAYSURF.blit(text_surf,text_rect)
         if text_rect.right >= WINDOWWIDTH:
-            LIFECOUNT-=1
+            self.word_remove_lose_life()
             if LIFECOUNT == 0:
                 game_over()
 
@@ -224,10 +225,20 @@ class word_on_screen:
         delete_rect.bottomleft = tuple(self.position)
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
 
+    def word_remove_lose_life(self):
+        global LIFECOUNT
+        WORDS_ON_SCREEN.remove(self)
+        text_surf = BASICFONT.render(self.name,True,WHITE)
+        delete_rect = text_surf.get_rect()
+        delete_rect.bottomleft = tuple(self.position)
+        pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
+        LIFECOUNT-=1
+
+
     def check_for_position(self):
         pass
 
-            
+
 
 if __name__ == '__main__':
     main()
