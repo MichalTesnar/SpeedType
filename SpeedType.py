@@ -137,21 +137,12 @@ def refresh_score():
 
 def check_for_life():
     global LIFECOUNT
-<<<<<<< HEAD
     position = [round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.53)]
     rectangle = pygame.Rect(round(WINDOWWIDTH / 1.14),round(WINDOWHEIGHT / 10 * 9.3),WINDOWWIDTH,WINDOWHEIGHT)
     DISPLAYSURF.fill(BGCOLOR,rectangle)
     for i in range (LIFECOUNT):
         pygame.draw.circle(DISPLAYSURF,RED, position, 5)
-        position[0] += 15        
-=======
-    position = [round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6)]
-    pygame.draw.rect(DISPLAYSURF, BGCOLOR, (round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6),WINDOWWIDTH,WINDOWHEIGHT),11)
-    for i in range (LIFECOUNT):
-        pygame.draw.circle(DISPLAYSURF,RED, position, 5)
         position[0] += 15
-
->>>>>>> 8ecc22297b5540f084a68a08a04c3f68af0bbd98
 
 def game_over():
     global WORDS, WORDS_ON_SCREEN, LIFECOUNT
@@ -200,12 +191,7 @@ class word_on_screen:
     def __init__(self, word):
         global name, position
         self.name = word
-<<<<<<< HEAD
-        self.position = [0,random.randint(20,WINDOWHEIGHT/10*9)]        
-=======
         self.position = [0,random.randint(20,WINDOWHEIGHT/10*9)]
-
->>>>>>> 8ecc22297b5540f084a68a08a04c3f68af0bbd98
 
     def word_move(self):
         self.position[0] += WINDOWWIDTH / 64
@@ -228,12 +214,8 @@ class word_on_screen:
             text_surf = BASICFONT.render(self.name,True,color[2])
         DISPLAYSURF.blit(text_surf,text_rect)
         if text_rect.right >= WINDOWWIDTH:
-<<<<<<< HEAD
             LIFECOUNT-=1
             self.word_remove()
-=======
-            self.word_remove_lose_life()
->>>>>>> 8ecc22297b5540f084a68a08a04c3f68af0bbd98
             if LIFECOUNT == 0:
                 game_over()
 
@@ -253,11 +235,8 @@ class word_on_screen:
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
         LIFECOUNT-=1
 
-
     def check_for_position(self):
         pass
-
-
 
 if __name__ == '__main__':
     main()
