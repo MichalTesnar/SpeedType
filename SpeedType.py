@@ -7,7 +7,8 @@ WORDS = []
 WORDS_ON_SCREEN = []
 DIFFICULTY = 3
 DELAY = FPS * DIFFICULTY
-WORD_MOVE_TIME = FPS * 0.1
+WORD_MOVE_TIME = FPS * 1
+WORDS_POSITION = [-1*x for x in range(0,round(WORD_MOVE_TIME/6))]
 putin = ""
 SCORE = 0
 BGCOLOR = (0, 0, 0)
@@ -188,9 +189,14 @@ def draw_start_screen(text):
 class word_on_screen:
 
     def __init__(self, word):
-        global name, position
+        global name, position, WORDS_POSITION
         self.name = word
-        self.position = [0,random.randint(20,WINDOWHEIGHT/10*9)]
+        self.position = [0,round(random.randint(1,WINDOWHEIGHT-46)/23)*23]
+        while self.position[1] in WORDS_POSITION:
+            self.position[1] = round(random.randint(1,WINDOWHEIGHT-46)/23)*23
+        WORDS_POSITION.pop()
+        WORDS_POSITION.insert(0,self.position[1])
+        print(WORDS_POSITION)
 
     def word_move(self):
         self.position[0] += WINDOWWIDTH / 64
