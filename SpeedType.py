@@ -59,7 +59,6 @@ def main():
             for word in WORDS_ON_SCREEN:
                 word.word_move()
                 word.word_draw()
-                word.check_for_position()
             wait_time_word = 0
         FPSCLOCK.tick(FPS)
 
@@ -225,7 +224,7 @@ class word_on_screen:
         delete_rect = text_surf.get_rect()
         delete_rect.bottomleft = tuple(self.position)
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
-
+    """
     def word_remove_lose_life(self):
         global LIFECOUNT
         WORDS_ON_SCREEN.remove(self)
@@ -234,9 +233,7 @@ class word_on_screen:
         delete_rect.bottomleft = tuple(self.position)
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
         LIFECOUNT-=1
-
-    def check_for_position(self):
-        pass
-
+    """
+    
 if __name__ == '__main__':
     main()
