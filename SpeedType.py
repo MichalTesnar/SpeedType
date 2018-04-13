@@ -137,12 +137,12 @@ def refresh_score():
 
 def check_for_life():
     global LIFECOUNT
-    position = [round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6)]
-    pygame.draw.rect(DISPLAYSURF, BGCOLOR, (round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.6),WINDOWWIDTH,WINDOWHEIGHT),11)
+    position = [round(WINDOWWIDTH / 1.1),round(WINDOWHEIGHT / 10 * 9.53)]
+    rectangle = pygame.Rect(round(WINDOWWIDTH / 1.14),round(WINDOWHEIGHT / 10 * 9.3),WINDOWWIDTH,WINDOWHEIGHT)
+    DISPLAYSURF.fill(BGCOLOR,rectangle)
     for i in range (LIFECOUNT):
         pygame.draw.circle(DISPLAYSURF,RED, position, 5)
         position[0] += 15
-
 
 def game_over():
     global WORDS, WORDS_ON_SCREEN, LIFECOUNT
@@ -151,6 +151,7 @@ def game_over():
     pygame.display.update()
     WORDS = []
     WORDS_ON_SCREEN = []
+    LIFECOUNT = 3
     while True:
         if check_for_input() == "enter":
             LIFECOUNT = 3
@@ -160,26 +161,26 @@ def draw_start_screen(text):
     global SCORE
     text_surf = BASICFONT.render(text,True,GREEN)
     text_rect = text_surf.get_rect()
-    text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
+    text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2 - 30)
     DISPLAYSURF.blit(text_surf,text_rect)
 
     if text == "Start":
         text_surf = BASICFONT.render("To procceed, press enter!",True,GREEN)
         text_rect = text_surf.get_rect()
-        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2+30)
+        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
         DISPLAYSURF.blit(text_surf,text_rect)
     else:
         text_surf = BASICFONT.render(text,True,RED)
         text_rect = text_surf.get_rect()
-        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
+        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2-30)
         DISPLAYSURF.blit(text_surf,text_rect)
         text_surf = BASICFONT.render("To restart, press enter!",True,GREEN)
         text_rect = text_surf.get_rect()
-        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2+30)
+        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
         DISPLAYSURF.blit(text_surf,text_rect)
-        text_surf = BASICFONT.render("Score:"+str(SCORE),True,GREEN)
+        text_surf = BASICFONT.render("Score: "+str(SCORE),True,GREEN)
         text_rect = text_surf.get_rect()
-        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2+60)
+        text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2+30)
         DISPLAYSURF.blit(text_surf,text_rect)
         SCORE = 0
 
@@ -191,7 +192,6 @@ class word_on_screen:
         global name, position
         self.name = word
         self.position = [0,random.randint(20,WINDOWHEIGHT/10*9)]
-
 
     def word_move(self):
         self.position[0] += WINDOWWIDTH / 64
@@ -214,7 +214,8 @@ class word_on_screen:
             text_surf = BASICFONT.render(self.name,True,color[2])
         DISPLAYSURF.blit(text_surf,text_rect)
         if text_rect.right >= WINDOWWIDTH:
-            self.word_remove_lose_life()
+            LIFECOUNT-=1
+            self.word_remove()
             if LIFECOUNT == 0:
                 game_over()
 
@@ -234,12 +235,8 @@ class word_on_screen:
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
         LIFECOUNT-=1
 
-
     def check_for_position(self):
         pass
 
-
-
 if __name__ == '__main__':
     main()
-#
