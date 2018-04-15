@@ -23,7 +23,7 @@ def main():
 
     wait_time_delay = 0
     wait_time_word = 0
-    global BASICFONT, DISPLAYSURF, FPSCLOCK, slovo, char
+    global BASICFONT, DISPLAYSURF, FPSCLOCK, slovo, char, DIFFICULTY, DELAY, WORD_MOVE_TIME
 
     FPSCLOCK = pygame.time.Clock()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -44,15 +44,15 @@ def main():
 
     while True:
         refresh_score()
+        check_difficulty()
         check_for_life()
         wait_time_delay += 1
         wait_time_word += 1
         char = check_for_input()
         show_text(char)
-        if wait_time_delay == DELAY:
+        if wait_time_delay >= DELAY:
             get_rand_word()
             wait_time_delay = 0
-            print(WORDS)
         for word in WORDS_ON_SCREEN:
             if word.name not in WORDS:
                 word.word_remove()
@@ -186,6 +186,24 @@ def draw_start_screen(text):
 
     pygame.display.update()
 
+
+def check_difficulty():
+    global SCORE, DIFFICULTY, DELAY, WORD_MOVE_TIME
+    if DIFFICULTY <= 1.25:
+        pass
+
+    else:
+        DIFFICULTY = 3 - SCORE / 20
+        DELAY = int(FPS * DIFFICULTY)
+
+    if SCORE >= 75:
+        WORD_MOVE_TIME = FPS * 0.9
+
+    if SCORE >= 100:
+        WORD_MOVE_TIME = FPS * 0.8
+
+
+
 class word_on_screen:
 
     def __init__(self, word):
@@ -230,16 +248,9 @@ class word_on_screen:
         delete_rect = text_surf.get_rect()
         delete_rect.bottomleft = tuple(self.position)
         pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
-    """
-    def word_remove_lose_life(self):
-        global LIFECOUNT
-        WORDS_ON_SCREEN.remove(self)
-        text_surf = BASICFONT.render(self.name,True,WHITE)
-        delete_rect = text_surf.get_rect()
-        delete_rect.bottomleft = tuple(self.position)
-        pygame.draw.rect(DISPLAYSURF, BGCOLOR, delete_rect)
-        LIFECOUNT-=1
-    """
-    
+
+
+
+
 if __name__ == '__main__':
     main()
