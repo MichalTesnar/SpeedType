@@ -1,3 +1,8 @@
+#SpeedType game
+#autoři: Přemek Bělka, Michal Tešnar
+#repo: https://github.com/MichalTesnar/SpeedType
+#fell free to modify share and play <3
+
 import sys, random, pygame, time
 
 FPS = 60
@@ -27,6 +32,7 @@ def main():
 
     FPSCLOCK = pygame.time.Clock()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+    pygame.display.set_caption("Speed Type")
     BASICFONT = pygame.font.Font('mocfancyfont.ttf', 20)
 
     with open("words.txt") as file:
@@ -80,7 +86,7 @@ def check_for_input():
                 WORDS.remove(putin)
                 SCORE+=1
                 putin=""
-                print(SCORE)
+                #print(SCORE)
                 return("enter")
             elif event.key == pygame.K_BACKSPACE:
                 putin = putin[0:len(putin) - 1]
@@ -214,7 +220,7 @@ class word_on_screen:
             self.position[1] = round(random.randint(1,WINDOWHEIGHT-46)/23)*23
         WORDS_POSITION.pop()
         WORDS_POSITION.insert(0,self.position[1])
-        print(WORDS_POSITION)
+        #print(WORDS_POSITION)
 
     def word_move(self):
         self.position[0] += WINDOWWIDTH / 64
