@@ -165,7 +165,7 @@ def draw_start_screen(text):
     DISPLAYSURF.blit(text_surf,text_rect)
 
     if text == "Start":
-        text_surf = BASICFONT.render("To procceed, press enter!",True,GREEN)
+        text_surf = BASICFONT.render("To proceed, press enter!",True,GREEN)
         text_rect = text_surf.get_rect()
         text_rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
         DISPLAYSURF.blit(text_surf,text_rect)
